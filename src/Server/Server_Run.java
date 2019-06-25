@@ -1,57 +1,57 @@
 package Server;
 
-import Controllers.Server;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import Server.Server_Worker;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server_Run implements Runnable{
-    protected int          serverPort   = 8080;
+public class Server_Run
+        implements Runnable {
+    protected int serverPort = 8080;
     protected ServerSocket serverSocket = null;
-    protected boolean      isStopped    = false;
-    protected Thread       runningThread= null;
+    protected boolean isStopped = false;
+    protected Thread runningThread = null;
 
-    public Server_Run(int port){
+    public Server_Run(int port) {
         this.serverPort = port;
     }
 
-    public void run(){
-        synchronized(this){
+    @Override
+    public void run() {
+        Server_Run server_Run = this;
+        synchronized (server_Run) {
             this.runningThread = Thread.currentThread();
         }
-        openServerSocket();
-        while(! isStopped()){
+        this.openServerSocket();
+        while (!this.isStopped()) {
             Socket clientSocket = null;
             try {
+                System.out.println("Waiting on port " + this.serverPort);
                 clientSocket = this.serverSocket.accept();
-            } catch (IOException e) {
-                if(isStopped()) {
-                    System.out.println("Server Stopped.") ;
+            }
+            catch (IOException e) {
+                if (this.isStopped()) {
+                    System.out.println("Server Stopped.");
                     return;
                 }
-                throw new RuntimeException(
-                        "Error accepting client connection", e);
+                throw new RuntimeException("Error accepting client connection", e);
             }
-            new Thread(
-                    new Server_Worker(clientSocket, "teste")).start();
+            new Thread((Runnable)new Server_Worker(clientSocket, "teste")).start();
         }
-        System.out.println("Server Stopped.") ;
+        System.out.println("Server Stopped.");
     }
-
 
     private synchronized boolean isStopped() {
         return this.isStopped;
     }
 
-    public synchronized void stop(){
+    public synchronized void stop() {
         this.isStopped = true;
         try {
             this.serverSocket.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException("Error closing server", e);
         }
     }
@@ -59,10 +59,9 @@ public class Server_Run implements Runnable{
     private void openServerSocket() {
         try {
             this.serverSocket = new ServerSocket(this.serverPort);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException("Cannot open port 8080", e);
         }
     }
-
-
 }

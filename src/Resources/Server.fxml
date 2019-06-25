@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -11,27 +10,27 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="499.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Server">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="408.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
-      <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="15.0" prefHeight="35.0" prefWidth="640.0" text="ZipZop Server" textAlignment="CENTER">
-               <font>
-                  <Font name="SansSerif Regular" size="28.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="110.0" text="Users" />
-            <Button fx:id="startStopButton" layoutX="287.0" layoutY="60.0" mnemonicParsing="false" text="Turn On" onAction="#handleStartStopButton"/>
-            <ListView layoutX="14.0" layoutY="126.0" prefHeight="287.0" prefWidth="200.0" />
-      </children>
-    </AnchorPane>
-  </children>
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="408.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="15.0" prefHeight="35.0" prefWidth="640.0" text="ZipZop Server" textAlignment="CENTER">
+                    <font>
+                        <Font name="SansSerif Regular" size="28.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="110.0" text="Users" />
+                <Button fx:id="startStopButton" layoutX="287.0" layoutY="60.0" mnemonicParsing="false" text="Turn On" onAction="#handleStartStopButton"/>
+                <ListView layoutX="14.0" layoutY="126.0" prefHeight="287.0" prefWidth="200.0" />
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>
