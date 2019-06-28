@@ -1,14 +1,12 @@
 package Server;
 
-import Server.Server_Worker;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server_Run
-        implements Runnable {
-    protected int serverPort = 8080;
+public class Server_Run implements Runnable {
+    protected int serverPort;
     protected ServerSocket serverSocket = null;
     protected boolean isStopped = false;
     protected Thread runningThread = null;
@@ -37,7 +35,7 @@ public class Server_Run
                 }
                 throw new RuntimeException("Error accepting client connection", e);
             }
-            new Thread((Runnable)new Server_Worker(clientSocket, "teste")).start();
+            new Thread(new Server_Worker(clientSocket, "teste")).start();
         }
         System.out.println("Server Stopped.");
     }
