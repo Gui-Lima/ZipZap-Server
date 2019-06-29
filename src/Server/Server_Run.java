@@ -1,15 +1,20 @@
 package Server;
 
+import Controllers.Server;
+import Models.User;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server_Run implements Runnable {
     protected int serverPort;
     protected ServerSocket serverSocket = null;
     protected boolean isStopped = false;
     protected Thread runningThread = null;
+    protected ArrayList<User> userList;
 
     public Server_Run(int port) {
         this.serverPort = port;
@@ -35,7 +40,10 @@ public class Server_Run implements Runnable {
                 }
                 throw new RuntimeException("Error accepting client connection", e);
             }
-            new Thread(new Server_Worker(clientSocket, "teste")).start();
+            Server_Worker connection = new Server_Worker(clientSocket, "Hi, I'm Connecting", this);
+            User fulano = new User(clientSocket.getPort(), connection);
+            this.userList.add(fulano);
+            new Thread(connection).start();
         }
         System.out.println("Server Stopped.");
     }
@@ -61,5 +69,8 @@ public class Server_Run implements Runnable {
         catch (IOException e) {
             throw new RuntimeException("Cannot open port 8080", e);
         }
+    }
+    public ArrayList<User> getUserList(){
+        return this.userList;
     }
 }

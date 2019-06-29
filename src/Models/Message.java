@@ -16,7 +16,6 @@ public class Message {
 
     public Message(String encrypt) {
         String[] arr = encrypt.split("||");
-
         this.type = Type.valueOf(arr[0]);
         this.fromPort = arr[1];
         this.toPort = arr[2];
