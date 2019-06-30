@@ -46,7 +46,7 @@ public class Server_UserConnection implements Runnable {
 
     private void handleInput(String input) {
         Message message = new Message(input);
-        if(message.getType() == Type.CONNECT){
+        if(message.getType() == Type.CONNECT_TO || message.getType() == Type.RECEIVE_CONNECTION){
             System.out.println("Since it is a Connection message, i'm connecting this user to");
             createUserConnection(message.getToPort());
         }
@@ -69,7 +69,8 @@ public class Server_UserConnection implements Runnable {
             System.out.println("Não existe esse usuário");
             return;
         }
-        Message message = new Message(Type.CONNECT, Status.SENT,port,clientSocket.getPort(), "conexao");
+        Message message = new Message(Type.RECEIVE_CONNECTION, Status.SENT,
+                port, clientSocket.getPort(), "receiving connection");
         try {
             this.server.sendMessage(message, connectedTo);
         } catch (IOException e) {
