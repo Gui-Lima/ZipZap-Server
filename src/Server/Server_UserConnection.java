@@ -69,6 +69,7 @@ public class Server_UserConnection implements Runnable {
             System.out.println("Não existe esse usuário");
             return;
         }
+
         Message message = new Message(Type.RECEIVE_CONNECTION, Status.SENT,
                 port, clientSocket.getPort(), "receiving connection");
         try {
