@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 public class Server {
     @FXML
     Button startStopButton;
+
     Server_Run server;
 
     public void handleStartStopButton() {

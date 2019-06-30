@@ -4,23 +4,25 @@ import Controllers.Server;
 import Models.Message;
 import Models.Type;
 import Models.User;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server_Worker implements Runnable {
+
+public class Server_UserConnection implements Runnable {
     protected Socket clientSocket = null;
     protected String serverText = null;
     protected User connectedTo;
     protected Server_Run server;
+    protected ArrayList<Message> messageList;
 
     private boolean stopped = true;
 
-    public Server_Worker(Socket clientSocket, String serverText, Server_Run server) {
+    public Server_UserConnection(Socket clientSocket, String serverText, Server_Run server) {
         this.clientSocket = clientSocket;
         this.serverText = serverText;
         this.server = server;
+        this.messageList = new ArrayList<>();
     }
 
     @Override
@@ -43,13 +45,13 @@ public class Server_Worker implements Runnable {
 
     private void handleInput(String input) {
         Message message = new Message(input);
-        if(message.getType() == Type.CONECT){
-            createUserConnection(message.getToIP());
+        if(message.getType() == Type.CONNECT){
+            createUserConnection(message.getToPort());
         }
         else if(message.getType() == Type.MESSAGE){
             sendMessageToUser(message);
         }
-        else if(message.getType() == Type.ENDCONECT){
+        else if(message.getType() == Type.FINISH){
             endConnectionToUser();
         }
     }
@@ -60,6 +62,10 @@ public class Server_Worker implements Runnable {
 
     private void createUserConnection(int port) {
         connectedTo = findUser(port);
+        if(connectedTo.equals(null)){
+            System.out.println("Não existe esse usuário");
+            return;
+        }
         System.out.println(connectedTo.getPort());
     }
 
@@ -69,9 +75,16 @@ public class Server_Worker implements Runnable {
                 return user;
             }
         }
+        return null;
     }
 
     private void sendMessageToUser(Message message){
-
+        try {
+            this.server.sendMessage(message, connectedTo);
+        } catch (IOException e) {
+            System.out.println("erro");
+            e.printStackTrace();
+        }
     }
+
 }

@@ -1,15 +1,14 @@
 package Models;
 
-import Controllers.Server;
-import Server.Server_Worker;
+import Server.Server_UserConnection;
 
 public class User {
     private String username;
     private String address;
     private int port;
-    private Server_Worker connection;
+    private Server_UserConnection connection;
 
-    public User(int port, Server_Worker connectionThread){
+    public User(int port, Server_UserConnection connectionThread){
         this.port = port;
         this.connection = connectionThread;
     }
@@ -22,11 +21,11 @@ public class User {
         this.port = port;
     }
 
-    public Server_Worker getConnection() {
+    public Server_UserConnection getConnection() {
         return connection;
     }
 
-    public void setConnection(Server_Worker connection) {
+    public void setConnection(Server_UserConnection connection) {
         this.connection = connection;
     }
 }

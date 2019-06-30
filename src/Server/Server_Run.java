@@ -1,10 +1,10 @@
 package Server;
 
-import Controllers.Server;
+import Models.Message;
 import Models.User;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ public class Server_Run implements Runnable {
 
     public Server_Run(int port) {
         this.serverPort = port;
+        this.userList = new ArrayList<>();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class Server_Run implements Runnable {
                 }
                 throw new RuntimeException("Error accepting client connection", e);
             }
-            Server_Worker connection = new Server_Worker(clientSocket, "Hi, I'm Connecting", this);
+            Server_UserConnection connection = new Server_UserConnection(clientSocket, "Hi, I'm Connecting", this);
             User fulano = new User(clientSocket.getPort(), connection);
             this.userList.add(fulano);
             new Thread(connection).start();
@@ -72,5 +73,10 @@ public class Server_Run implements Runnable {
     }
     public ArrayList<User> getUserList(){
         return this.userList;
+    }
+
+    public void sendMessage(Message message, User user) throws IOException {
+        DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
+        data.writeUTF("batata");
     }
 }
