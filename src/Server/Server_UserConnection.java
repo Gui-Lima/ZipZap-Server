@@ -72,7 +72,7 @@ public class Server_UserConnection implements Runnable {
     }
 
     private User findUser(int port) {
-        for (User user: server.getUserList()){
+        for (User user: server.getUserList()){  
             if(user.getPort() == port){
                 return user;
             }
