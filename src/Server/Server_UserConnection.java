@@ -32,6 +32,8 @@ public class Server_UserConnection implements Runnable {
             while (!stopped) {
                 DataInputStream inData = new DataInputStream(clientSocket.getInputStream());
                 String stringuiline = inData.readUTF();
+                System.out.println("Recieved Message from: " + this.clientSocket.getPort());
+                System.out.println("Message is: " + stringuiline);
                 handleInput(stringuiline);
             }
             clientSocket.close();
@@ -44,9 +46,11 @@ public class Server_UserConnection implements Runnable {
     private void handleInput(String input) {
         Message message = new Message(input);
         if(message.getType() == Type.CONNECT){
+            System.out.println("Since it is a Connection message, i'm connecting this user to");
             createUserConnection(message.getToPort());
         }
         else if(message.getType() == Type.MESSAGE){
+            System.out.println("Since it is a Message message, i'm sending it to: " + this.connectedTo.getPort());
             sendMessageToUser(message);
         }
         else if(message.getType() == Type.FINISH){

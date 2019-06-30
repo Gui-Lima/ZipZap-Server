@@ -4,7 +4,6 @@ import Server.Server_UserConnection;
 
 public class User {
     private String username;
-    private String address;
     private int port;
     private Server_UserConnection connection;
 

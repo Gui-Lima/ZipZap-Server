@@ -82,6 +82,8 @@ public class Server_Run implements Runnable {
 
     public void sendMessage(Message message, User user) throws IOException {
         DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
+        System.out.println("Sending " +  message.getText() + " to " + message.getToPort());
         data.writeUTF("batata");
+
     }
 }
