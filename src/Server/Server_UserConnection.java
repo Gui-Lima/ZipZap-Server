@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 
 public class Server_UserConnection implements Runnable {
-    protected Socket clientSocket = null;
-    protected String serverText = null;
+    protected Socket clientSocket;
+    protected String serverText;
     protected User connectedTo;
     protected Server_Run server;
     protected ArrayList<Message> messageList;
@@ -32,10 +32,10 @@ public class Server_UserConnection implements Runnable {
         try {
             while (!stopped) {
                 DataInputStream inData = new DataInputStream(clientSocket.getInputStream());
-                String stringuiline = inData.readUTF();
-                System.out.println("Recieved Message from: " + this.clientSocket.getPort());
-                System.out.println("Message is: " + stringuiline);
-                handleInput(stringuiline);
+                String message = inData.readUTF();
+                System.out.println("Received Message from: " + this.clientSocket.getPort());
+                System.out.println("Message is: " + message);
+                handleInput(message);
             }
             clientSocket.close();
 
