@@ -1,6 +1,5 @@
 package Server;
 
-import Controllers.Server;
 import Models.Message;
 import Models.Status;
 import Models.Type;
@@ -70,8 +69,7 @@ public class Server_UserConnection implements Runnable {
             return;
         }
 
-        Message message = new Message(Type.RECEIVE_CONNECTION, Status.SENT,
-                port, clientSocket.getPort(), "receiving connection");
+        Message message = new Message(Type.RECEIVE_CONNECTION, Status.SENT, clientSocket.getPort(), port, "receiving connection");
         try {
             this.server.sendMessage(message, connectedTo);
         } catch (IOException e) {
