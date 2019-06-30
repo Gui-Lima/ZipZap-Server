@@ -44,9 +44,7 @@ public class Server_Run implements Runnable {
                 throw new RuntimeException("Error accepting client connection", e);
             }
             Server_UserConnection connection = new Server_UserConnection(clientSocket, "Hi, I'm Connecting", this);
-
             User fulano = new User(clientSocket.getPort(), connection);
-
             this.userList.add(fulano);
             new Thread(connection).start();
 
@@ -83,7 +81,6 @@ public class Server_Run implements Runnable {
     public void sendMessage(Message message, User user) throws IOException {
         DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
         System.out.println("Sending " +  message.getText() + " to " + message.getToPort());
-        data.writeUTF("batata");
-
+        data.writeUTF(message.toString());
     }
 }

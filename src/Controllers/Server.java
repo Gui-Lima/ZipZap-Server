@@ -20,11 +20,6 @@ public class Server {
 
     Server_Run server;
 
-    private List<User> usuarios = new ArrayList<>();
-    //    private List<String> infor = new ArrayList<>();
-    private ObservableList<User> obsUsuarios;
-
-    //    private ObservableList<String> obsInfo;
     public void handleStartStopButton() {
         if (this.startStopButton.getText().equals("Turn On")) {
             this.startServer();
@@ -48,22 +43,9 @@ public class Server {
     }
 
     public void carregarUsuarios() {
-
-         if (this.startStopButton.getText().equals("Turn Off")) {
-
-             usuarios = server.getUserList();
-
-//            User u1 = new User(192, null);
-//            User u2 = new User(192, null);
-//
-//            usuarios.add(u1);
-//            usuarios.add(u2);
-
-            obsUsuarios = FXCollections.observableArrayList(usuarios);
-            usersList.setItems(obsUsuarios);
-//            usuarios.remove(1);
-//            usuarios.remove(0);
-        }
+        List<User> usuarios = server.getUserList();
+        ObservableList<User> obsUsuarios = FXCollections.observableArrayList(usuarios);
+        usersList.setItems(obsUsuarios);
     }
 
 }

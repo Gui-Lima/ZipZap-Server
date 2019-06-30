@@ -2,6 +2,7 @@ package Server;
 
 import Controllers.Server;
 import Models.Message;
+import Models.Status;
 import Models.Type;
 import Models.User;
 import java.io.*;
@@ -68,6 +69,12 @@ public class Server_UserConnection implements Runnable {
             System.out.println("Não existe esse usuário");
             return;
         }
+        Message message = new Message(Type.CONNECT, Status.SENT,port,clientSocket.getPort(), "conexao");
+        try {
+            this.server.sendMessage(message, connectedTo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println(connectedTo.getPort());
     }
 
@@ -77,6 +84,7 @@ public class Server_UserConnection implements Runnable {
                 return user;
             }
         }
+        System.out.println("There's not user with this port: " + port);
         return null;
     }
 
