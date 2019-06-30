@@ -16,10 +16,12 @@ public class Server_Run implements Runnable {
     protected Thread runningThread = null;
     protected ArrayList<User> userList;
 
-    public Server_Run(int port) {
+
+    public Server_Run(int port ) {
         this.serverPort = port;
         this.userList = new ArrayList<>();
     }
+
 
     @Override
     public void run() {
@@ -42,9 +44,12 @@ public class Server_Run implements Runnable {
                 throw new RuntimeException("Error accepting client connection", e);
             }
             Server_UserConnection connection = new Server_UserConnection(clientSocket, "Hi, I'm Connecting", this);
+
             User fulano = new User(clientSocket.getPort(), connection);
+
             this.userList.add(fulano);
             new Thread(connection).start();
+
         }
         System.out.println("Server Stopped.");
     }

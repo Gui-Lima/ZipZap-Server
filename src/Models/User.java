@@ -13,6 +13,8 @@ public class User {
         this.connection = connectionThread;
     }
 
+    public User(){};
+
     public int getPort() {
         return port;
     }

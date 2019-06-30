@@ -33,8 +33,6 @@ public class Server_UserConnection implements Runnable {
                 DataInputStream inData = new DataInputStream(clientSocket.getInputStream());
                 String stringuiline = inData.readUTF();
                 handleInput(stringuiline);
-                DataOutputStream outData = new DataOutputStream(clientSocket.getOutputStream());
-                outData.writeUTF(stringuiline);
             }
             clientSocket.close();
 
