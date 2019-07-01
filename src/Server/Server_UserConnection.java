@@ -49,12 +49,16 @@ public class Server_UserConnection implements Runnable {
             System.out.println("Since it is a Connection message, i'm connecting this user to");
             createUserConnection(message.getToPort());
         }
-        else if(message.getType() == Type.MESSAGE){
+        else if(message.getType() == Type.MESSAGE_SEND){
             System.out.println("Since it is a Message message, i'm sending it to: " + this.connectedTo.getPort());
             sendMessageToUser(message);
         }
         else if(message.getType() == Type.FINISH){
             endConnectionToUser();
+        }
+        else if(message.getType() == Type.MESSAGE_DELETE){
+            System.out.println("I'm trying to delete a message");
+            deleteMessageOnChat(message);
         }
     }
 
@@ -93,6 +97,15 @@ public class Server_UserConnection implements Runnable {
             this.server.sendMessage(message, connectedTo);
         } catch (IOException e) {
             System.out.println("erro");
+            e.printStackTrace();
+        }
+    }
+
+
+    private void deleteMessageOnChat(Message message){
+        try{
+            this.server.deleteMessage(message, connectedTo);
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
