@@ -12,6 +12,9 @@ import java.util.ArrayList;
 public class Server_UserConnection implements Runnable {
     protected Socket clientSocket;
     protected String serverText;
+    private DataInputStream input;
+    private DataOutputStream output;
+    private User myUser;
     protected User connectedTo;
     protected Server_Run server;
     protected ArrayList<Message> messageList;
@@ -30,8 +33,8 @@ public class Server_UserConnection implements Runnable {
         stopped = false;
         try {
             while (!stopped) {
-                DataInputStream inData = new DataInputStream(clientSocket.getInputStream());
-                String message = inData.readUTF();
+                this.input = new DataInputStream(clientSocket.getInputStream());
+                String message = input.readUTF();
                 System.out.println("Received Message from: " + this.clientSocket.getPort());
                 System.out.println("Message is: " + message);
                 handleInput(message);
@@ -45,6 +48,8 @@ public class Server_UserConnection implements Runnable {
 
     private void handleInput(String input) {
         Message message = new Message(input);
+        message.setStatus(Status.SENT);
+        this.sendMessageStatusUpdate(message);
         if(message.getType() == Type.CONNECT_TO || message.getType() == Type.RECEIVE_CONNECTION){
             System.out.println("Since it is a Connection message, i'm connecting this user to");
             createUserConnection(message.getToPort());
@@ -101,6 +106,16 @@ public class Server_UserConnection implements Runnable {
         }
     }
 
+    private void sendMessageStatusUpdate(Message message){
+        try{
+            Message m = new Message(message);
+            m.setType(Type.STATUS_UPDATE);
+            this.myUser = this.findUser(this.clientSocket.getPort());
+            this.server.statusUpdate(m, this.myUser);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void deleteMessageOnChat(Message message){
         try{

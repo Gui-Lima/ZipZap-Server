@@ -60,6 +60,9 @@ public class Server_Run implements Runnable {
     public synchronized void stop() {
         this.isStopped = true;
         try {
+            for (User user : this.userList){
+                user.getConnection().clientSocket.close();
+            }
             this.serverSocket.close();
         }
         catch (IOException e) {
@@ -88,6 +91,12 @@ public class Server_Run implements Runnable {
     public void deleteMessage(Message message, User user) throws IOException{
         DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
         System.out.println("Sending request do delete message " +message.toString());
+        data.writeUTF(message.toString());
+    }
+
+    public void statusUpdate(Message message, User user) throws IOException{
+        DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
+        System.out.println("Sending status update of the messgae");
         data.writeUTF(message.toString());
     }
 }

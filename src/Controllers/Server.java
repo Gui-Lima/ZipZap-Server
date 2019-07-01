@@ -37,9 +37,7 @@ public class Server {
     }
 
     private void stopServer() {
-        if (!this.server.equals(null)) {
             this.server.stop();
-        }
     }
 
     public void carregarUsuarios() {
