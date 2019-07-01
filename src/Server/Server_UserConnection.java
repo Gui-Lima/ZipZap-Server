@@ -100,6 +100,9 @@ public class Server_UserConnection implements Runnable {
     private void sendMessageToUser(Message message){
         try {
             this.server.sendMessage(message, connectedTo);
+            Message m = new Message(message);
+            m.setStatus(Status.RECEIVED);
+            this.sendMessageStatusUpdate(message);
         } catch (IOException e) {
             System.out.println("erro");
             e.printStackTrace();
