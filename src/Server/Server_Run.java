@@ -1,6 +1,8 @@
 package Server;
 
 import Models.Message;
+import Models.Status;
+import Models.Type;
 import Models.User;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
@@ -61,6 +63,7 @@ public class Server_Run implements Runnable {
         this.isStopped = true;
         try {
             for (User user : this.userList){
+                this.finishServer(user);
                 user.getConnection().clientSocket.close();
             }
             this.serverSocket.close();
@@ -85,6 +88,13 @@ public class Server_Run implements Runnable {
     public void sendMessage(Message message, User user) throws IOException {
         DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
         System.out.println("Sending " +  message.getText() + " to " + message.getToPort());
+        data.writeUTF(message.toString());
+    }
+
+    public void finishServer(User user) throws IOException {
+        DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
+        System.out.println("Finishing Server");
+        Message message = new Message(Type.FINISH, Status._,0,user.getPort()," ");
         data.writeUTF(message.toString());
     }
 
