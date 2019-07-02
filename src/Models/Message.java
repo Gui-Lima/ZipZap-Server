@@ -1,6 +1,4 @@
 package Models;
-
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Message {
@@ -56,7 +54,7 @@ public class Message {
     @Override
     public boolean equals(Object object){
         if(object instanceof Message){
-            if(((Message) object).id == this.id && ((Message) object).text.equals(this.text)){
+            if(((Message) object).id == this.id){
                 return true;
             }
         }
@@ -64,7 +62,7 @@ public class Message {
     }
 
     public String show(){
-        return "(" + this.id + ")" + this.fromPort  + " : " + this.text;
+        return "(" + this.id + ")" + "{" + this.status+ "}"+ this.fromPort  + " : " + this.text;
     }
 
     public void setText(String str) {

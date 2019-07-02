@@ -48,8 +48,9 @@ public class Server_UserConnection implements Runnable {
 
     private void handleInput(String input) {
         Message message = new Message(input);
-        message.setStatus(Status.SENT);
-        this.sendMessageStatusUpdate(message);
+        if(message.getType() == Type.STATUS_UPDATE){
+            this.sendMessageStatusUpdateTo(message);
+        }
         if(message.getType() == Type.CONNECT_TO || message.getType() == Type.RECEIVE_CONNECTION){
             System.out.println("Since it is a Connection message, i'm connecting this user to");
             createUserConnection(message.getToPort());
@@ -78,7 +79,7 @@ public class Server_UserConnection implements Runnable {
             return;
         }
 
-        Message message = new Message(Type.RECEIVE_CONNECTION, Status.SENT, clientSocket.getPort(), port, "receiving connection");
+        Message message = new Message(Type.RECEIVE_CONNECTION, Status.CHECK_C, clientSocket.getPort(), port, "receiving connection");
         try {
             this.server.sendMessage(message, connectedTo);
         } catch (IOException e) {
@@ -99,12 +100,21 @@ public class Server_UserConnection implements Runnable {
 
     private void sendMessageToUser(Message message){
         try {
+            message.setStatus(Status._);
             this.server.sendMessage(message, connectedTo);
-            Message m = new Message(message);
-            m.setStatus(Status.RECEIVED);
+            message.setStatus(Status.DOUBLE_CHECK_C);
             this.sendMessageStatusUpdate(message);
         } catch (IOException e) {
             System.out.println("erro");
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessageStatusUpdateTo(Message message){
+        try{
+            Message m = new Message(message);
+            this.server.statusUpdate(m, this.connectedTo);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

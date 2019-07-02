@@ -96,7 +96,7 @@ public class Server_Run implements Runnable {
 
     public void statusUpdate(Message message, User user) throws IOException{
         DataOutputStream data = new DataOutputStream(user.getConnection().clientSocket.getOutputStream());
-        System.out.println("Sending status update of the messgae");
+        System.out.println("Sending status update of the message");
         data.writeUTF(message.toString());
     }
 }
